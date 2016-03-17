@@ -5,6 +5,7 @@ Cohesion::Cohesion(Boid* parent, float weight) : SteeringBehaviour(parent)
 {
 	this->weight = 1.0f;
 	type = SB_COHESION;
+	name = "Cohesion";
 }
 
 sf::Vector2f Cohesion::CalculateSteeringForce()

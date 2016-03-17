@@ -6,6 +6,7 @@ Separation::Separation(Boid* parent, float weight) : SteeringBehaviour(parent)
 {
 	this->weight = weight;
 	type = SB_SEPARATION;
+	name = "Separation";
 }
 
 sf::Vector2f Separation::CalculateSteeringForce()

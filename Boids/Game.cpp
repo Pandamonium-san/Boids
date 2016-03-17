@@ -7,7 +7,6 @@
 #include <fstream>
 #include "Boid.h"
 #include "BoidMagnet.h"
-//#include "Utility.h"
 
 Game::Game(int width, int height, std::string name)
 {
@@ -33,18 +32,21 @@ void Game::Initialize()
 	clock.restart();
 	rng.seed(time(NULL));
 
+	SpawnPlayer();
+
 	for (size_t i = 0; i < 30; i++)
 	{
-		int x = rand() % window->getSize().x;
-		int y = rand() % window->getSize().y;
-		int vx = rand() % 400 - 200;
-		int vy = rand() % 400 - 200;
+		float x = rand() % window->getSize().x;
+		float y = rand() % window->getSize().y;
+		float vx = rand() % 400 - 200;
+		float vy = rand() % 400 - 200;
 		Boid* boid = new Boid(sf::Vector2f(x, y), sf::Vector2f(vy, vx));
 		PostGameObj(boid);
-		if (i == 1)
-			boid->DebugMode(true);
 	}
-
+	ToggleBehaviour(SteeringBehaviour::SB_ALIGNMENT);
+	ToggleBehaviour(SteeringBehaviour::SB_COHESION);
+	ToggleBehaviour(SteeringBehaviour::SB_SEPARATION);
+	ToggleBehaviour(SteeringBehaviour::SB_WANDER);
 }
 
 void Game::PostGameObj(GameObject* obj)
@@ -62,6 +64,14 @@ bool RemoveNotActive(GameObject* obj)
 	return false;
 }
 
+void Game::SpawnPlayer()
+{
+	player = new Boid(sf::Vector2f(mousePos.x, mousePos.y), sf::Vector2f(0, 0));
+	player->GetBehaviour(SteeringBehaviour::SB_APPROACH)->enabled = true;
+	player->body.setFillColor(sf::Color::Green);
+	PostGameObj(player);
+}
+
 void Game::SpawnBoid(sf::Vector2f pos)
 {
 	std::uniform_int_distribution<int> x(-200, 200);
@@ -75,6 +85,31 @@ void Game::SpawnMagnet(sf::Vector2f pos, bool attract)
 	PostGameObj(m);
 }
 
+void Game::ToggleBehaviour(int sbType)
+{
+	bool printed = false;
+	std::string name = player->GetBehaviour(sbType)->name;
+	GameObjList out;
+	FindAllGameObjOfType(GameObject::TYPE_BOID, out);
+	GameObjList::iterator itr;
+	for (itr = out.begin(); itr != out.end(); ++itr)
+	{
+		Boid* b = dynamic_cast<Boid*>(*itr);
+		if (player != nullptr && b == player)
+			continue;
+		bool enable = b->GetBehaviour(sbType)->enabled;
+		b->GetBehaviour(sbType)->enabled = !enable;
+		if (!printed)
+		{
+			if (!enable)
+				std::cout << name << " enabled." << std::endl;
+			else if (enable)
+				std::cout << name << " disabled." << std::endl;
+			printed = true;
+		}
+	}
+}
+
 void Game::ClearAll()
 {
 	GameObjList::iterator itr;
@@ -82,24 +117,7 @@ void Game::ClearAll()
 	{
 		(*itr)->isActive = false;
 	}
-	Boid::pursuit = false;
-}
-
-void Game::TogglePursuit()
-{
-	Boid::pursuit = !Boid::pursuit;
-	if (Boid::pursuit)
-	{
-		std::uniform_int_distribution<int> x(-200, 200);
-		Boid::target = new BoidMagnet(sf::Vector2f(x(rng), x(rng)), false, sf::Vector2f(x(rng), x(rng)));
-		PostGameObj(Boid::target);
-		std::cout << "Pursuit enabled." << std::endl;
-	}
-	else if (!Boid::pursuit)
-	{
-		Boid::target->isActive = false;
-		std::cout << "Pursuit disabled." << std::endl;
-	}
+	player = nullptr;
 }
 
 void Game::HandleEvents()
@@ -140,27 +158,30 @@ void Game::HandleEvents()
 				std::cout << "Paused: " << paused << std::endl;
 				break;
 			case sf::Keyboard::Num1:
-				Boid::cohesion = !Boid::cohesion;
-				std::cout << "Cohesion: " << Boid::cohesion << std::endl;
+				ToggleBehaviour(SteeringBehaviour::SB_ALIGNMENT);
 				break;
 			case sf::Keyboard::Num2:
-				Boid::alignment = !Boid::alignment;
-				std::cout << "Alignment: " << Boid::alignment << std::endl;
+				ToggleBehaviour(SteeringBehaviour::SB_COHESION);
 				break;
 			case sf::Keyboard::Num3:
-				Boid::separation = !Boid::separation;
-				std::cout << "Separation: " << Boid::separation << std::endl;
+				ToggleBehaviour(SteeringBehaviour::SB_SEPARATION);
 				break;
 			case sf::Keyboard::Num4:
-				Boid::wander = !Boid::wander;
-				std::cout << "Wander: " << Boid::wander << std::endl;
+				ToggleBehaviour(SteeringBehaviour::SB_WANDER);
 				break;
 			case sf::Keyboard::Num5:
-				TogglePursuit();
+				if (player == nullptr)
+					SpawnPlayer();
+				ToggleBehaviour(SteeringBehaviour::SB_PURSUIT);
 				break;
 			case sf::Keyboard::Num6:
-				Boid::arrive = !Boid::arrive;
-				std::cout << "Arrive: " << Boid::arrive << std::endl;
+				ToggleBehaviour(SteeringBehaviour::SB_ARRIVE);
+				break;
+			case sf::Keyboard::Num7:
+				ToggleBehaviour(SteeringBehaviour::SB_ATTRACT);
+				break;
+			case sf::Keyboard::Num8:
+				ToggleBehaviour(SteeringBehaviour::SB_APPROACH);
 				break;
 			case sf::Keyboard::C:
 				ClearAll();
@@ -189,7 +210,7 @@ void Game::Update()
 	sf::Time time = clock.getElapsedTime();
 	dt = time.asSeconds();
 	clock.restart();
-	
+
 	if (paused)
 		return;
 
@@ -202,6 +223,7 @@ void Game::Update()
 		}
 		else continue;
 
+		//Check collisions
 		GameObjList::iterator list2;
 		for (list2 = gameObjects.begin(); list2 != gameObjects.end(); ++list2)
 		{

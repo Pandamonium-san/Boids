@@ -7,6 +7,7 @@ Pursuit::Pursuit(Boid* parent, Boid* target, float weight) : SteeringBehaviour(p
 	this->target = target;
 	this->weight = weight;
 	type = SB_PURSUIT;
+	name = "Pursuit";
 }
 
 sf::Vector2f Pursuit::CalculateSteeringForce()

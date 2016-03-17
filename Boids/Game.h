@@ -2,11 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include <list>
 #include <random>
+#include <string>
 
 #define WINDOW_SIZE_X 800
 #define WINDOW_SIZE_Y 600
 
-
+class Boid;
 class GameObject;
 class GA;
 
@@ -23,18 +24,22 @@ public:
 	void PostGameObj(GameObject* obj);
 	void FindAllGameObjOfType(int type, GameObjList& list);
 
+	void SpawnPlayer();
 	void SpawnBoid(sf::Vector2f pos);
 	void SpawnMagnet(sf::Vector2f pos, bool attract);
 	void ClearAll();
-	void TogglePursuit();
+	void ToggleBehaviour(int sbType);
 
 	std::mt19937 rng;
 	sf::RenderWindow* window;
 	sf::Clock clock;
 	float dt;
+
 	GameObjList gameObjects;
+	Boid* player;
 	sf::Vector2f mousePos;
 	sf::Font Arial;
+
 private:
 	bool paused = false;
 };

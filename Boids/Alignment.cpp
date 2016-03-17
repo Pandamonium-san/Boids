@@ -5,6 +5,7 @@ Alignment::Alignment(Boid* parent, float weight) : SteeringBehaviour(parent)
 {
 	this->weight = weight;
 	type = SB_ALIGNMENT;
+	name = "Alignment";
 }
 
 sf::Vector2f Alignment::CalculateSteeringForce()

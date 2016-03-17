@@ -12,7 +12,7 @@ public:
 	void SetHitbox() override;
 	sf::Vector2f GetPosition() override;
 
-	sf::RectangleShape body;
+	sf::CircleShape body;
 	sf::Vector2f velocity;
 	bool attract;
 };

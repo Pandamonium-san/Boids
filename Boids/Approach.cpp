@@ -5,6 +5,7 @@ Approach::Approach(Boid* parent, sf::Vector2f* target, float weight) : SteeringB
 	this->target = target;
 	this->weight = weight;
 	type = SB_APPROACH;
+	name = "Approach";
 }
 
 

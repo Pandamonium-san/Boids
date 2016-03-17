@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/System/Vector2.hpp>
-
+#include <string>
 class Boid;
 
 class SteeringBehaviour abstract
@@ -11,7 +11,8 @@ public:
 	virtual sf::Vector2f CalculateSteeringForce() abstract;
 	sf::Vector2f Seek(sf::Vector2f target);
 
-	bool enabled;
+	std::string name;
+	bool enabled =  false;
 	int type;
 	float weight = 1.0f;
 
@@ -24,6 +25,7 @@ public:
 		SB_WANDER,
 		SB_PURSUIT,
 		SB_ARRIVE,
+		SB_ATTRACT,
 	};
 protected:
 	Boid* parent;

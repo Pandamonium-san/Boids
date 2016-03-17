@@ -2,7 +2,7 @@
 
 BoidMagnet::BoidMagnet(sf::Vector2f pos, bool attract, sf::Vector2f vel)
 {
-	body = sf::RectangleShape(sf::Vector2f(25, 25));
+	body = sf::CircleShape(12.5f);
 	body.setPosition(pos);
 	body.setOrigin(12.5f, 12.5f);
 	velocity = vel;
@@ -34,6 +34,7 @@ void BoidMagnet::Update(float deltaTime)
 		newPos.y = newPos.y + WINDOW_SIZE_Y;
 
 	body.setPosition(newPos);
+	GameObject::Update(deltaTime);
 }
 
 void BoidMagnet::Draw(sf::RenderWindow* window)

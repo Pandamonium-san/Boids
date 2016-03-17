@@ -7,6 +7,7 @@ Arrive::Arrive(Boid* parent, sf::Vector2f* target, float weight) : SteeringBehav
 	this->target = target;
 	this->weight = weight;
 	type = SB_ARRIVE;
+	name = "Arrive";
 }
 
 sf::Vector2f Arrive::CalculateSteeringForce()
