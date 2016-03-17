@@ -14,6 +14,11 @@ BoidMagnet::BoidMagnet(sf::Vector2f pos, bool attract, sf::Vector2f vel)
 	type = TYPE_MAGNET;
 }
 
+sf::Vector2f BoidMagnet::GetPosition()
+{
+	return body.getPosition();
+}
+
 void BoidMagnet::Update(float deltaTime)
 {
 	body.move(velocity * deltaTime);

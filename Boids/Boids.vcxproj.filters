@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Steering">
+      <UniqueIdentifier>{9862daf5-0b5b-47c6-a99f-bc6221c75f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Steering">
+      <UniqueIdentifier>{b5f7a34f-c871-4d08-bc40-f213e440fc85}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -33,6 +39,30 @@
     <ClCompile Include="BoidMagnet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Approach.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="SteeringBehaviour.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Cohesion.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Separation.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Alignment.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Wander.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrive.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
+    <ClCompile Include="Pursuit.cpp">
+      <Filter>Source Files\Steering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -49,6 +79,30 @@
     </ClInclude>
     <ClInclude Include="BoidMagnet.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Approach.h">
+      <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="SteeringBehaviour.h">
+      <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Cohesion.h">
+      <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Separation.h">
+      <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Alignment.h">
+      <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Wander.h">
+      <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrive.h">
+      <Filter>Header Files\Steering</Filter>
+    </ClInclude>
+    <ClInclude Include="Pursuit.h">
+      <Filter>Header Files\Steering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

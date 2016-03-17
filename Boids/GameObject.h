@@ -10,8 +10,9 @@ public:
 	virtual void HandleEvents(sf::Event event){}
 	virtual void Update(float deltaTime);
 	virtual void Draw(sf::RenderWindow* window){}
-	virtual void DoCollision(GameObject* other){};
+	virtual void DoCollision(GameObject* other){}
 	virtual bool IsColliding(GameObject* other);
+	virtual sf::Vector2f GetPosition(){ return sf::Vector2f(0, 0); }
 	virtual void SetHitbox();
 
 	sf::FloatRect hitbox;

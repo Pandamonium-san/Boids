@@ -77,19 +77,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Alignment.cpp" />
+    <ClCompile Include="Approach.cpp" />
+    <ClCompile Include="Arrive.cpp" />
     <ClCompile Include="Boid.cpp" />
     <ClCompile Include="BoidMagnet.cpp" />
+    <ClCompile Include="Cohesion.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Pursuit.cpp" />
+    <ClCompile Include="Separation.cpp" />
+    <ClCompile Include="SteeringBehaviour.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="Wander.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Alignment.h" />
+    <ClInclude Include="Approach.h" />
+    <ClInclude Include="Arrive.h" />
     <ClInclude Include="Boid.h" />
     <ClInclude Include="BoidMagnet.h" />
+    <ClInclude Include="Cohesion.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Pursuit.h" />
+    <ClInclude Include="Separation.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="Wander.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

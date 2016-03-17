@@ -10,6 +10,7 @@ public:
 	void Update(float deltaTime) override;
 	void Draw(sf::RenderWindow* window) override;
 	void SetHitbox() override;
+	sf::Vector2f GetPosition() override;
 
 	sf::RectangleShape body;
 	sf::Vector2f velocity;
