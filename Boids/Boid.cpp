@@ -21,7 +21,7 @@ Boid::Boid(sf::Vector2f pos, sf::Vector2f vel)
 	sbs.push_back(new Alignment(this));
 	sbs.push_back(new Wander(this, 0.5f));
 	sbs.push_back(new Arrive(this, &game.mousePos, 5.f));
-	sbs.push_back(new Attract(this, 1.f));
+	sbs.push_back(new Attract(this));
 	sbs.push_back(new Pursuit(this, game.player));
 
 	type = TYPE_BOID;

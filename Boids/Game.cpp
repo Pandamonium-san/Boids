@@ -7,6 +7,7 @@
 #include <fstream>
 #include "Boid.h"
 #include "BoidMagnet.h"
+#include "Utility.h"
 
 Game::Game(int width, int height, std::string name)
 {
@@ -31,6 +32,10 @@ void Game::Initialize()
 {
 	clock.restart();
 	rng.seed(time(NULL));
+	for (size_t i = 0; i < 8; i++)
+	{
+		sbMap.insert(std::pair<int, bool>(i, false));
+	}
 
 	SpawnPlayer();
 
@@ -47,6 +52,7 @@ void Game::Initialize()
 	ToggleBehaviour(SteeringBehaviour::SB_COHESION);
 	ToggleBehaviour(SteeringBehaviour::SB_SEPARATION);
 	ToggleBehaviour(SteeringBehaviour::SB_WANDER);
+	ToggleBehaviour(SteeringBehaviour::SB_ATTRACT);
 }
 
 void Game::PostGameObj(GameObject* obj)
@@ -87,8 +93,11 @@ void Game::SpawnMagnet(sf::Vector2f pos, bool attract)
 
 void Game::ToggleBehaviour(int sbType)
 {
-	bool printed = false;
-	std::string name = player->GetBehaviour(sbType)->name;
+	bool enabled = sbMap[sbType] = !sbMap[sbType];
+
+	if (player == nullptr)
+		SpawnPlayer();
+
 	GameObjList out;
 	FindAllGameObjOfType(GameObject::TYPE_BOID, out);
 	GameObjList::iterator itr;
@@ -97,16 +106,7 @@ void Game::ToggleBehaviour(int sbType)
 		Boid* b = dynamic_cast<Boid*>(*itr);
 		if (player != nullptr && b == player)
 			continue;
-		bool enable = b->GetBehaviour(sbType)->enabled;
-		b->GetBehaviour(sbType)->enabled = !enable;
-		if (!printed)
-		{
-			if (!enable)
-				std::cout << name << " enabled." << std::endl;
-			else if (enable)
-				std::cout << name << " disabled." << std::endl;
-			printed = true;
-		}
+		b->GetBehaviour(sbType)->enabled = enabled;
 	}
 }
 
@@ -170,8 +170,6 @@ void Game::HandleEvents()
 				ToggleBehaviour(SteeringBehaviour::SB_WANDER);
 				break;
 			case sf::Keyboard::Num5:
-				if (player == nullptr)
-					SpawnPlayer();
 				ToggleBehaviour(SteeringBehaviour::SB_PURSUIT);
 				break;
 			case sf::Keyboard::Num6:
@@ -247,6 +245,21 @@ void Game::Update()
 		gameObjects.erase(newEnd, end);
 }
 
+void Game::DrawBehaviours()
+{
+	std::string s = "Alignment " + Utility::ToString(sbMap[2]);
+	s += "\nCohesion " + Utility::ToString(sbMap[1]);
+	s += "\nSeparation " + Utility::ToString(sbMap[3]);
+	s += "\nWander " + Utility::ToString(sbMap[4]);
+	s += "\nPursuit " + Utility::ToString(sbMap[5]);
+	s += "\nArrive " + Utility::ToString(sbMap[6]);
+	s += "\nAttract " + Utility::ToString(sbMap[7]);
+	s += "\nApproach " + Utility::ToString(sbMap[0]);
+	sf::Text text(s, Arial);
+	text.setScale(sf::Vector2f(0.5f,0.5f));
+	window->draw(text);
+}
+
 void Game::Draw()
 {
 	if (paused)
@@ -260,6 +273,7 @@ void Game::Draw()
 		if ((*list)->isActive)
 			(*list)->Draw(window);
 	}
+	DrawBehaviours();
 
 	window->display();
 }

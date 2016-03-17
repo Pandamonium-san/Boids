@@ -3,6 +3,7 @@
 #include <list>
 #include <random>
 #include <string>
+#include <map>
 
 #define WINDOW_SIZE_X 800
 #define WINDOW_SIZE_Y 600
@@ -29,6 +30,7 @@ public:
 	void SpawnMagnet(sf::Vector2f pos, bool attract);
 	void ClearAll();
 	void ToggleBehaviour(int sbType);
+	void DrawBehaviours();
 
 	std::mt19937 rng;
 	sf::RenderWindow* window;
@@ -39,6 +41,8 @@ public:
 	Boid* player;
 	sf::Vector2f mousePos;
 	sf::Font Arial;
+
+	std::map<int, bool> sbMap;
 
 private:
 	bool paused = false;
